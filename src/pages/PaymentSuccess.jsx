@@ -1,24 +1,42 @@
-import React from 'react';
-import AdminHeader from '../components/AdminHeader';
-import Card from 'react-bootstrap/Card';
-import { Link } from 'react-router-dom';
+import React from "react";
+import AdminHeader from "../components/AdminHeader";
+import { Link } from "react-router-dom";
+import { Card } from "react-bootstrap";
+import "animate.css"; // For animations
+import Footer from "../components/Footer";
 
 function PaymentSuccess() {
   return (
     <>
       <AdminHeader />
-      <div className="d-flex justify-content-center align-items-center vh-100">
-        <Card style={{ width: '80%', maxWidth: '500px' }}>
+      <div className="d-flex justify-content-center align-items-center vh-100 p-3">
+        <Card
+          className="shadow-lg text-center p-4 animate__animated animate__fadeInUp"
+          style={{ width: "100%", maxWidth: "450px", borderRadius: "15px" }}
+        >
           <Card.Body>
-            <Card.Title>Payment Successful</Card.Title>
-            <Card.Subtitle className="mb-2 text-muted">Thank you for your payment</Card.Subtitle>
-            <Card.Text>
-              Your transaction has been completed successfully. You can view your order details or continue shopping.
+            {/* Success Message */}
+            <Card.Title className="fw-bold text-primary fs-3">
+              Payment Successful
+            </Card.Title>
+            <Card.Subtitle className="mb-3 text-muted">
+              Thank you for your purchase!
+            </Card.Subtitle>
+            <Card.Text className="text-secondary">
+              Keep learning, stay curious, and work hard to achieve your goals. 🚀  
+              Your enrolled courses are now available in the dashboard.
             </Card.Text>
-           <Link to={'/dashboard'}><button className='btn btn-info p-2'>Go to Dashboard</button></Link>
+
+            {/* Go to Dashboard Button */}
+            <Link to="/dashboard">
+              <button className="btn btn-info text-light w-100 fw-bold shadow-sm dashboardbtn">
+                Go to Dashboard
+              </button>
+            </Link>
           </Card.Body>
         </Card>
       </div>
+      <Footer/>
     </>
   );
 }

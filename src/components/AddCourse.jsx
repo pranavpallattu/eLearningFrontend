@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import "react-toastify/dist/ReactToastify.css"; // Ensure the CSS is imported
 import { ToastContainer, toast } from "react-toastify";
 import { addCourseApi } from '../services/allApis';
+import { addCourseContext } from '../context/ContextApi';
 
 
 function AddCourse() {
@@ -17,6 +18,9 @@ function AddCourse() {
     coverImage: "",
     introVideo: ""
   });
+
+      const{setAddCourseResponse}=useContext(addCourseContext)
+  
 
   const [previewImage, setPreviewImage] = useState("");
   const [previewVideo, setPreviewVideo] = useState("");
@@ -94,6 +98,7 @@ function AddCourse() {
          console.log(result);
          if(result.status==200){
           toast.success(`course added successfully`)
+          setAddCourseResponse(result)
           setTimeout(() => {
             handleClose()
           }, 2000);
@@ -133,7 +138,7 @@ function AddCourse() {
 
   return (
     <>
-      <button onClick={handleShow} className='btn btn-primary p-2'>
+      <button onClick={handleShow} className='btn btn-primary p-2' style={{backgroundColor:'#1e2a47'}}>
         Add Course
       </button>
       <Modal show={show} onHide={handleClose} className="animate__animated animate__fadeIn animate_ modal-lg">
@@ -187,7 +192,7 @@ function AddCourse() {
                 </div>
                 <div className='mb-3'>
                   <input
-                    type="text"
+                    type="number"
                     placeholder='Price'
                     value={courseDetails.price}
                     onChange={(e) => setCourseDetails({ ...courseDetails, price: e.target.value })}

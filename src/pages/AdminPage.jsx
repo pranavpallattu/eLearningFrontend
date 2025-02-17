@@ -1,13 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import AdminHeader from '../components/AdminHeader';
 import AddCourse from '../components/AddCourse';
 import EnrolledCourse from '../components/EnrolledCourse';
 import { getCourseApi } from '../services/allApis';
+import { Link } from 'react-router-dom';
+import Footer from '../components/Footer';
+import { addCourseContext, deleteCourseContext, editCourseContext } from '../context/ContextApi';
+import "animate.css"; // Import Animate.css
 
 function AdminPage() {
-
   const [courseDetails, setCourseDetails] = useState([]);
-  
+
+  const { addCourseResponse } = useContext(addCourseContext);
+  const { deleteCourseResponse } = useContext(deleteCourseContext);
+  const { editCourseResponse } = useContext(editCourseContext);
+
   // Fetch course data
   const getCourse = async () => {
     if (sessionStorage.getItem("token")) {
@@ -20,43 +27,57 @@ function AdminPage() {
       try {
         const result = await getCourseApi(reqHeader);
         console.log("API Response:", result.data);
-
-        // Log unique courses before setting state
-        const uniqueCourses = result.data.filter(
-          (course, index, self) => index === self.findIndex((c) => c._id === course._id)
-        );
-        console.log("Unique Courses:", uniqueCourses);
-        setCourseDetails(uniqueCourses);
-
+        setCourseDetails(result.data);
       } catch (error) {
         console.error('Error fetching courses:', error);
       }
     }
   };
-  
+
   useEffect(() => {
-    console.log('component mounted');
+    console.log('Component mounted');
     getCourse();
-  }, []);
+  }, [addCourseResponse, deleteCourseResponse, editCourseResponse]);
 
   return (
     <>
       <AdminHeader />
-      <div className="container-fluid mt-5">
-        <AddCourse />
+      
+      <div className="container-fluid my-5">
+        {/* Admin Controls Section */}
+        <div className="d-flex justify-content-between align-items-center mb-4 animate__animated animate__fadeIn">
+          <AddCourse />
+          <Link to='/admin/allcoupons'>
+            <button className="btn btn-success px-4 py-2" style={{ backgroundColor: '#1e2a47' }}>
+              Manage Coupons
+            </button>
+          </Link>
+        </div>
 
-        <div className="row mt-5">
-          {courseDetails.length > 0 ? (
+        {/* Courses Display Section */}
+        <div className="row g-4 animate__animated animate__fadeIn">
+          {courseDetails?.length > 0 ? (
             courseDetails.map((item) => (
-              <div className="col-md-4" key={item._id}>
-                <EnrolledCourse course={item} />
+              <div className="col-md-6 col-lg-4" key={item._id}>
+                <div className="card shadow-lg border-0 rounded-3 animate__animated animate__zoomIn">
+                  <EnrolledCourse course={item} />
+                </div>
               </div>
             ))
           ) : (
-            <p>No courses</p>
+            <div className="text-center mt-5">
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/4076/4076432.png"
+                alt="No Courses"
+                className="img-fluid w-25 animate__animated animate__fadeIn"
+              />
+              <p className="text-muted mt-3 animate__animated animate__fadeIn">No courses available.</p>
+            </div>
           )}
         </div>
       </div>
+
+      <Footer />
     </>
   );
 }

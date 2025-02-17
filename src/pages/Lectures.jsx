@@ -1,45 +1,28 @@
 import React from 'react';
 import Header from '../components/Header';
-import AddLectures from './AddLectures';
+import AddLectures from '../components/AddLectures';
+import Footer from '../components/Footer';
+
 
 function Lectures() {
   return (
     <>
       <Header />
-      <div className="container-fluid">
+      <div className="container-fluid my-5">
         <div className="row">
-          <div className="col-md-8">
-            {/* Video section */}
-            <div>
-              <p>Select a lecture to view the video.</p>
-              <video width="100%" controls>
-                <source src="" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-            </div>
+          <div className="col-md-3">
+            {/* Main content area */}
           </div>
-          <div className="col-md-4">
+          <div className="col-md-6 my-5">
             {/* Add lectures form */}
             <AddLectures />
           </div>
-        </div>
-      </div>
-      <div className="container-fluid mt-3">
-        <div className="row">
-          <div className="col-md-8">
-            {/* Placeholder for additional content if needed */}
-          </div>
-          <div className="col-md-4">
-            {/* Lecture list */}
-            <div>
-              <h4>Lecture 1</h4>
-            </div>
-            <div>
-              <h4>Lecture 2</h4>
-            </div>
+          <div className="col-md-3">
+            {/* Add lectures form */}
           </div>
         </div>
       </div>
+      <Footer/>
     </>
   );
 }

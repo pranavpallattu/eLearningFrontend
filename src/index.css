@@ -4,3 +4,82 @@
   font-family: "Anton", serif;
 }
 
+
+
+
+
+.available-btn{
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(90deg, #001eff, #000000, #ffffff);
+  background-size: 200% 100%;
+  animation: moveShimmer 2s infinite linear;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+
+.available-btn:hover {
+  background-position: left;
+  transform: scale(1.05);
+}
+
+@keyframes moveShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+
+
+
+.logintoenroll{
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(90deg, #ffffff, #0059fd, #1b0b77);
+  background-size: 200% 100%;
+  animation: moveShimmer 4s infinite linear;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+
+
+.dashboardbtn{
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(90deg, #470fff, #040165, #4834bc);
+  background-size: 200% 100%;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+
+
+
+
+
+
+.transition-effect {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.transition-effect:hover {
+  transform: scale(1.05); /* Slightly enlarge the card */
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2); /* Stronger shadow */
+}

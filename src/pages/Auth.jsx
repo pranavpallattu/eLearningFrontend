@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { loginApi, registerApi } from "../services/allApis";
 import "react-toastify/dist/ReactToastify.css"; // Ensure the CSS is imported
 import { ToastContainer, toast } from "react-toastify";
+import { loginResponseContext } from "../context/ContextApi";
 
 
 function Auth({ register }) {
   const navigate = useNavigate()
+
+  const{setLoginResponse}=useContext(loginResponseContext)
 
   const [userDetails, setUserDetails] = useState({
     username: "",
@@ -31,7 +34,7 @@ function Auth({ register }) {
       // api
       try {
         const result = await registerApi(reqBody);
-        if (result.status >= 200 && result.status <= 299) {
+        if (result.status==200) {
           toast.success("User registered successfully");
           setUserDetails({
             username: "",
@@ -41,11 +44,10 @@ function Auth({ register }) {
           setTimeout(()=>{
             navigate('/login')
           },2000)
-        } else if (result.status === 400) {
+        } 
+        else if (result.status === 400) {
           toast.warning(result.response?.data || "Bad request");
-        } else {
-          toast.error("Something went wrong");
-        }
+        } 
       } catch (error) {
         toast.error("An error occurred");
         console.error(error);
@@ -68,6 +70,7 @@ function Auth({ register }) {
       const result=await loginApi(reqBody)
       console.log(result);
       if(result.status==200){
+        setLoginResponse(true)
         toast.success("login successfull")
         sessionStorage.setItem("existingUser",JSON.stringify(result.data.existingUser))
         sessionStorage.setItem("token",result.data.token)
@@ -75,6 +78,7 @@ function Auth({ register }) {
           username: "",
           email: "",
           password: "",
+          role:""
         })
         const role=result.data.existingUser.role
         setTimeout(()=>{
@@ -88,6 +92,13 @@ function Auth({ register }) {
         },2000)
        
       }
+      else if(result.status==403){
+        toast.error('Unauthorized role')
+     
+    }
+    else if(result.status==401){
+      toast.error('invalid email or password')
+    }
      
     }
     
@@ -140,7 +151,7 @@ function Auth({ register }) {
                 onChange={(e) =>
                   setUserDetails({ ...userDetails, username: e.target.value })
                 }
-                value={userDetails.role}
+                value={userDetails.username}
                 className="form-control"
               />
             </div>
@@ -149,6 +160,7 @@ function Auth({ register }) {
             <input
               type="email"
               placeholder="Email ID"
+              value={userDetails.email}
               onChange={(e) =>
                 setUserDetails({ ...userDetails, email: e.target.value })
               }
@@ -162,6 +174,7 @@ function Auth({ register }) {
               onChange={(e) =>
                 setUserDetails({ ...userDetails, password: e.target.value })
               }
+              value={userDetails.password}
               className="form-control"
             />
           </div>
